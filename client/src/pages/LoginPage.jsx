@@ -8,10 +8,13 @@ const LoginPage = () => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     
-    const { login, user } = useAuth();
+    const { login, user, loading: authLoading } = useAuth();
     const navigate = useNavigate();
 
-    // Redirect if already logged in
+    if (authLoading) {
+        return <div>Loading...</div>; 
+    }
+
     if (user) {
         return <Navigate to="/" />;
     }

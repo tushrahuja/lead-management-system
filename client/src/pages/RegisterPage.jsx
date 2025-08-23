@@ -11,11 +11,14 @@ const RegisterPage = () => {
     });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    
-    const { register, user } = useAuth();
+
+    const { register, user, loading: authLoading } = useAuth();
     const navigate = useNavigate();
 
-    // Redirect if already logged in
+    if (authLoading) {
+        return <div>Loading...</div>; 
+    }
+    
     if (user) {
         return <Navigate to="/" />;
     }
