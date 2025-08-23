@@ -3,8 +3,19 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import LeadsDashboard from './pages/LeadsDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
+import { useAuth } from './context/AuthContext';
 
 function App() {
+  const { authLoading } = useAuth();
+
+  if (authLoading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <h2>Loading Application...</h2>
+      </div>
+    );
+  }
+  
   return (
     <BrowserRouter>
       <Routes>
