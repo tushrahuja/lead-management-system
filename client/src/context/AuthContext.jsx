@@ -16,6 +16,7 @@ export const AuthProvider = ({ children }) => {
             const response = await api.get('/api/auth/me');
             setUser(response.data);
         } catch (error) {
+            console.error('Auth check failed:', error);
             setUser(null);
         } finally {
             setLoading(false);
@@ -51,11 +52,13 @@ export const AuthProvider = ({ children }) => {
     const logout = async () => {
         try {
             await api.post('/api/auth/logout');
-            setUser(null);
         } catch (error) {
-            setUser(null);
+            console.error('Logout failed:', error);
         } finally {
-            window.location.href = '/login';
+            // Always clear user state and redirect
+            setUser(null);
+            // Force a complete page reload to clear all state
+            window.location.replace('/login');
         }
     };
 
@@ -64,7 +67,7 @@ export const AuthProvider = ({ children }) => {
         login,
         logout,
         register,
-        loading
+        authLoading: loading // Export as authLoading to match App.jsx expectation
     };
 
     return (
